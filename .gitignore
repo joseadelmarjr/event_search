@@ -1,1 +1,4 @@
 .env
+data/logs
+data/airflow/logs
+*__pycache__*

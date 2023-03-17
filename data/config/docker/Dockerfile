@@ -1,7 +1,7 @@
-FROM apache/airflow:2.4.1-python3.7 AS base
+FROM apache/airflow:2.4.1-python3.10 AS base
 LABEL mantainer="Engineering Tools <jose.adelmar@hotmail.com>"
 
-ENV AIRFLOW_VERSION=2.4.1
+ENV AIRFLOW_VERSION=2.5.1
 ENV AIRFLOW__CORE__DEFAULT_TASK_RETRIES=2
 ENV AIRFLOW__SCHEDULER__CATCHUP_BY_DEFAULT="False"
 ENV AIRFLOW__WEBSERVER__WARN_DEPLOYMENT_EXPOSURE="False"

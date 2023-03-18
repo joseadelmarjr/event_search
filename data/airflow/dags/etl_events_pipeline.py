@@ -31,6 +31,18 @@ def get_ticketmaster_events():
         ticket_master.next_page()
 
 
+def get_sympla_crawler():
+    from ingestor.crawler.sympla import SymplaCrawler
+
+    sympla_crawler = SymplaCrawler()
+
+    print(sympla_crawler.is_finished())
+
+    while not sympla_crawler.is_finished():
+        sympla_crawler.get_events()
+        sympla_crawler.save_events()
+        sympla_crawler.next_page()    
+
 with DAG(
     dag_id="etl_events_pipeline",
     default_args=dag_parameters,
@@ -45,8 +57,16 @@ with DAG(
         python_callable=get_ticketmaster_events,
     )
 
+    get_sympla_crawler = PythonOperator(
+        task_id="get_sympla_crawler",
+        python_callable=get_sympla_crawler,
+    )
+
+
     end_pipeline = EmptyOperator(task_id="end_pipeline")
 
     # Orchestration
     start_pipeline >> get_ticketmaster_events
+    start_pipeline >> get_sympla_crawler
     get_ticketmaster_events >> end_pipeline
+    get_sympla_crawler >> end_pipeline
